@@ -1,0 +1,11 @@
+﻿#Masses
+m=20               # masse de la sonde
+Mp=5.97*(10**24)   # masse planete
+
+#Distances
+h=800000
+Rt=6.6356*(10**6)  # rayon terre
+
+#Vitesses 
+v0=7451.9
+V=[0.8*v0,0.9*v0,v0,1.1*v0,1.2*v0]

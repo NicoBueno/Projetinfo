@@ -1,0 +1,8 @@
+﻿#Recurrence
+def recurrence(ti,tf,n,y0,z0,a0,b0):
+    p=(tf-ti)/n    # pas
+    T,Y,Z,A,B=[t0],[y0],[z0],[a0],[b0]
+    t,y,z,a,b=t0,y0,z0,a0,b0 
+    while (t+p)<=tf:
+        t+=p
+        T.append(t)
