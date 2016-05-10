@@ -17,32 +17,31 @@ G=9.81
 y0=Rt+h
 v0=7451.9
 V=[0.8*v0,0.9*v0,v0,1.1*v0,1.2*v0]
-alpha=G*Mp 
+alpha=-G*Mp 
 
 
 #------------------------------------------------------ Fonctions -------------------------------------------------- 
 
-def f1(z):
+def f1(z,t):
     return z 
 
-def f2(y,i):
-    return (y*(V[i]**2)-(alpha/(y**2)))
+def f2(y,b):
+    return (y*(b**2)+(alpha/(y**2)))
     
 def f3(b):
      return b
      
-def f4(z,a,y):
-    return ((-2*z*a)/y)
+def f4(z,b,y):
+    return ((2*z*b)/y)
    
 def recurrence(ti,tf,n,z0,a0,i):
-    global Z,T,Y
     b0=V[i]/y0
     p=float((tf-ti))/float(n)
-    T,Y,Z,A,B=[ti],[y0],[z0],[a0],[b0]
-    t,y,z,a,b=ti,y0,z0,a0,b0
+    T,Y,Z,A,B=[ti],[y0],[z0],[a0],[b0]    #Y correspond au rayon, Z à la vitesse
+    t,y,z,a,b=ti,y0,z0,a0,b0              #A correspond à l'angle, B à la vitesse angulaire
     while (t+p)<=tf:
         t+=p
-        y,z,a,b=y+p*f1(z),z+p*f2(y,i),a+p*f3(b),b+p*f4(z,a,y)
+        y,z,a,b=y+p*f1(z,t),z+p*f2(y,b),a+p*f3(b),b-p*f4(z,b,y)
         T.append(t)
         Y.append(y)
         Z.append(z)
@@ -61,15 +60,15 @@ def solexacte(n,i):               #l'argument permet de choisir la vitesse initi
     T,Y,A=recurrence(0,1,n,0,0,i)
     y=y0
     for k in A:
-        y+=((((y0**2)*V[i])**2)/(G*Mp))/(1+((((((y0**2)*V[i])**2)/(G*Mp))/y0)-1)*cos(k))
+        y+=(((y0*V[i])**2)/(G*Mp))/(1+((((((y0**2)*V[i])**2)/(G*Mp))/y0)-1)*cos(k))
         Ye.append(y)
     return Ye
 
 
 
     
-def traceeuler(n,i):      #on prend en argument le nombre de points d'acquisition et la vitesse que l'on veut 
-    t,y,a=recurrence(0,1,n,0,0,i)
+def traceeuler(tf,n,i):      #on prend en argument le nombre de points d'acquisition et la vitesse que l'on veut 
+    t,y,a=recurrence(0,tf,n,0,0,i)
     plt.title("Rayon en fonction du temps")
     plt.plot(t,y,'r')
     plt.show()
