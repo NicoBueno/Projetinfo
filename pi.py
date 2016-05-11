@@ -71,8 +71,6 @@ def solexacte(tf,n,i):               #l'argument permet de choisir la vitesse in
     plt.plot(T,Ye,'b')
     plt.show()
     #return Ye
-    
-
 
 
     
@@ -105,5 +103,14 @@ def compare1(i,n,tf,f):       #compare les différentes solutions en fonction de
     plt.legend()
     plt.show()
 
-#def compare2
-    
+def compare2(tf,n):         #trace les rayons et angles en fonction de v0
+    T,Y0,A0=recurrence(0,tf,n,0)
+    T,Y1,A1=recurrence(0,tf,n,1)
+    T,Y2,A2=recurrence(0,tf,n,2)
+    T,Y3,A3=recurrence(0,tf,n,3)
+    T,Y4,A4=recurrence(0,tf,n,4)
+    R=[Rt for i in range(len(T))]
+    plt.plot(T,Y0,'r',T,Y1,'g',T,Y2,'b',T,Y3,'y',T,Y4,'black',T,R,'purple')
+    plt.show()
+    plt.plot(T,A0,'r',T,A1,'g',T,A2,'b',T,A3,'y',T,A4,'black')
+    plt.show()
