@@ -68,7 +68,7 @@ def solexacte(tf,n,i):               #l'argument permet de choisir la vitesse in
     T,Y,A=recurrence(0,tf,n,i)
     y=y0
     for k in range(len(A)-1):
-        y+=d/(1+e*cos(A[k]))
+        y=d/(1+e*cos(A[k]))
         Ye.append(y)
     return T,Ye
 
@@ -141,7 +141,7 @@ def compare3(tf,n):         #trace les rayons et angles en fonction de v0
     plt.plot(T,Y3,'y',label="V(t=0)=5491 m/s")
     plt.plot(T,Y4,'black',label="V(t=0)=5491 m/s")
     plt.plot(T,R,'purple',label="Surface de la Terre")
-    #plt.ylim(0.4*10**(7),1.2*10**(7))
+    plt.ylim(0.4*10**(7),1.2*10**(7))
     plt.xlabel("Temps(s)")
     plt.ylabel("Rayons(m)")
     plt.legend(loc=2)
