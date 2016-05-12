@@ -60,18 +60,17 @@ def solscipy(f,tf,n):           #on trace la solution à l'equation differentiel
     plt.plot(ts,Y,'g')
 
 def solexacte(tf,n,i):               #l'argument permet de choisir la vitesse initiale
-    Ye=[]
-    d=(y0*(V[i]**2))/(G*Mp)
+    Ye=[y0]
+    b0=V[i]/y0
+    C=((y0**2)*b0)
+    d=(C**2)/(G*Mp)
     e=(d/y0)-1
     T,Y,A=recurrence(0,tf,n,i)
     y=y0
-    k=0
-    for k in A:
-        y+=d/(1+e*cos(k))
+    for k in range(len(A)-1):
+        y+=d/(1+e*cos(A[k]))
         Ye.append(y)
-    plt.plot(T,Ye,'b')
-    plt.show()
-    #return Ye
+    return T,Ye
 
 
     
@@ -129,3 +128,21 @@ def compare2(tf,n):         #trace les rayons et angles en fonction de v0
     plt.plot(T,A4,'k')
     plt.show()
     
+def compare3(tf,n):         #trace les rayons et angles en fonction de v0
+    T,Y0=solexacte(tf,n,0)
+    T,Y1=solexacte(tf,n,1)
+    T,Y2=solexacte(tf,n,2)
+    T,Y3=solexacte(tf,n,3)
+    T,Y4=solexacte(tf,n,4)
+    R=[Rt for i in range(len(T))]
+    plt.plot(T,Y0,'r',label="V(t=0)=5491 m/s")
+    plt.plot(T,Y1,'g',label="V(t=0)=5491 m/s")
+    plt.plot(T,Y2,'b',label="V(t=0)=5491 m/s")
+    plt.plot(T,Y3,'y',label="V(t=0)=5491 m/s")
+    plt.plot(T,Y4,'black',label="V(t=0)=5491 m/s")
+    plt.plot(T,R,'purple',label="Surface de la Terre")
+    #plt.ylim(0.4*10**(7),1.2*10**(7))
+    plt.xlabel("Temps(s)")
+    plt.ylabel("Rayons(m)")
+    plt.legend(loc=2)
+    plt.show()
