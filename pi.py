@@ -36,7 +36,7 @@ def fb(z,b,y):
     return ((2*z*b)/y)
 
    
-def recurrence(ti,tf,n,i):
+def recurrence(ti,tf,n,i):    # ti et tf correspondent respectivement aux temps initial et final, ils sont exprimés en secondes
     z0=0
     a0=0
     b0=V[i]/y0
