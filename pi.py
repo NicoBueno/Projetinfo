@@ -57,7 +57,7 @@ def solscipy(f,tf,n):           #on trace la solution à l'equation differentiel
     ts=np.linspace(0.,tf,n)
     y=spi.odeint(f,tf,ts)
     Y=y[:,0]
-    plt.plot(ts,Y,'g')
+    return ts,Y
 
 def solexacte(tf,n,i):               #l'argument permet de choisir la vitesse initiale
     Ye=[y0]
@@ -103,7 +103,7 @@ def compare1(i,n,tf,f):       #compare les différentes solutions en fonction de
     plt.legend()
     plt.show()
 
-def compare2(tf,n):         #trace les rayons et angles en fonction de v0
+def compare2(tf,n):         #trace les rayons et angles en fonction de v0 (avec Euler)
     T,Y0,A0=recurrence(0,tf,n,0)
     T,Y1,A1=recurrence(0,tf,n,1)
     T,Y2,A2=recurrence(0,tf,n,2)
@@ -128,7 +128,7 @@ def compare2(tf,n):         #trace les rayons et angles en fonction de v0
     plt.plot(T,A4,'k')
     plt.show()
     
-def compare3(tf,n):         #trace les rayons et angles en fonction de v0
+def compare3(tf,n,i):         #trace les rayons et angles en fonction de v0 (avec la solution exacte)
     T,Y0=solexacte(tf,n,0)
     T,Y1=solexacte(tf,n,1)
     T,Y2=solexacte(tf,n,2)
@@ -145,4 +145,18 @@ def compare3(tf,n):         #trace les rayons et angles en fonction de v0
     plt.xlabel("Temps(s)")
     plt.ylabel("Rayons(m)")
     plt.legend(loc=2)
+    plt.show()
+    
+def compare4(tf,n,i):         #compare les solutions oobtenues avec les 3 méthodes 
+    T,Y0,A0=recurrence(0,tf,n,i)
+    T1,Y1=solscipy(fy,tf,n)
+    T2,Y2=solexacte(tf,n,i)
+    R=[Rt for i in range(len(T))]
+    plt.plot(T,Y0,'r',label="V(t=0)=5491 m/s")
+    plt.plot(T1,Y1,'g',label="V(t=0)=5491 m/s")
+    plt.plot(T2,Y2,'b',label="V(t=0)=5491 m/s")
+    plt.plot(T,R,'purple',label="Surface de la Terre")
+    plt.xlabel("Temps(s)")
+    plt.ylabel("Rayons(m)")
+    #plt.legend(loc=2)
     plt.show()
