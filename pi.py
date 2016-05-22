@@ -164,7 +164,7 @@ def compare2(tf,n):         #trace les rayons et angles obtenus avec Odeint
     plt.plot(T,A4,'k')
     plt.show()
     
-def compare3(tf,n,i):   #trace les rayons et angles obtenus avec la solution exacte
+def compare3(tf,n):   #trace les rayons et angles obtenus avec la solution exacte
     T,Y0=solexacte(tf,n,0)
     T,Y1=solexacte(tf,n,1)
     T,Y2=solexacte(tf,n,2)
@@ -182,40 +182,106 @@ def compare3(tf,n,i):   #trace les rayons et angles obtenus avec la solution exa
     plt.ylabel("Rayons(m)")
     plt.legend(loc=2)
     plt.show()
+
+#-------- Fonctions pour comparer graphiquement l'évolution des rayon et ----------------------
+#------------- angle en fonction des diférentes CI avec une méthode------------------------- 
+
+def compare4(tf,n,i):         #trace les rayons et angles obtenus avec Euler
+    T0,Y0,A0=recurrence(tf,0.01*n,i)
+    T1,Y1,A1=recurrence(tf,0.1*n,i)
+    T2,Y2,A2=recurrence(tf,n,i)
+    T3,Y3,A3=recurrence(tf,10*n,i)
+    T4,Y4,A4=recurrence(tf,100*n,i)
+    R=[Rt for i in range(len(T1))]
+    plt.plot(T0,Y0,'r',label="V(t=0)=5491 m/s")
+    plt.plot(T1,Y1,'g',label="V(t=0)=5491 m/s")
+    plt.plot(T2,Y2,'b',label="V(t=0)=5491 m/s")
+    plt.plot(T3,Y3,'y',label="V(t=0)=5491 m/s")
+    plt.plot(T4,Y4,'black',label="V(t=0)=5491 m/s")
+    plt.plot(T1,R,'purple',label="Surface de la Terre")
+    plt.ylim(0.4*10**(7),1.2*10**(7))
+    plt.xlabel("Temps(s)")
+    plt.ylabel("Rayons(m)")
+    plt.legend(loc=2)
+    plt.show()
+    plt.plot(T0,A0,'r')
+    plt.plot(T1,A1,'g')
+    plt.plot(T2,A2,'b')
+    plt.plot(T3,A3,'y')
+    plt.plot(T4,A4,'k')
+    plt.show()
     
+def compare5(tf,n):         #trace les rayons et angles obtenus avec Odeint
+    T,Y0,A0=solscipy(tf,n,0)
+    T,Y1,A1=solscipy(tf,n,1)
+    T,Y2,A2=solscipy(tf,n,2)
+    T,Y3,A3=solscipy(tf,n,3)
+    T,Y4,A4=solscipy(tf,n,4)
+    R=[Rt for i in range(len(T))]
+    plt.plot(T,Y0,'r',label="V(t=0)=5491 m/s")
+    plt.plot(T,Y1,'g',label="V(t=0)=5491 m/s")
+    plt.plot(T,Y2,'b',label="V(t=0)=5491 m/s")
+    plt.plot(T,Y3,'y',label="V(t=0)=5491 m/s")
+    plt.plot(T,Y4,'black',label="V(t=0)=5491 m/s")
+    plt.plot(T,R,'purple',label="Surface de la Terre")
+    plt.ylim(0.45*10**(7),1.2*10**(7))
+    plt.xlabel("Temps(s)")
+    plt.ylabel("Rayons(m)")
+    plt.legend(loc=2)
+    plt.show()
+    plt.plot(T,A0,'r')
+    plt.plot(T,A1,'g')
+    plt.plot(T,A2,'b')
+    plt.plot(T,A3,'y')
+    plt.plot(T,A4,'k')
+    plt.show()
+    
+def compare6(tf,n,i):   #trace les rayons et angles obtenus avec la solution exacte
+    T0,Y0=solexacte(tf,0.01*n,i)
+    T1,Y1=solexacte(tf,0.1*n,i)
+    T2,Y2=solexacte(tf,n,i)
+    T3,Y3=solexacte(tf,10*n,i)
+    T4,Y4=solexacte(tf,100*n,i)
+    R=[Rt for i in range(len(T1))]
+    plt.plot(T0,Y0,'r',label="V(t=0)=5491 m/s")
+    plt.plot(T1,Y1,'g',label="V(t=0)=5491 m/s")
+    plt.plot(T2,Y2,'b',label="V(t=0)=5491 m/s")
+    plt.plot(T3,Y3,'y',label="V(t=0)=5491 m/s")
+    plt.plot(T4,Y4,'black',label="V(t=0)=5491 m/s")
+    plt.plot(T1,R,'purple',label="Surface de la Terre")
+    plt.ylim(0.4*10**(7),1.2*10**(7))
+    plt.xlabel("Temps(s)")
+    plt.ylabel("Rayons(m)")
+    plt.legend(loc=2)
+    plt.show()
+
 #-------- Fonctions pour comparer graphiquement les solutions ------------------
 #------------- obtenues grâce aux différentes méthodes ------------------------- 
 
-def compare4(tf,n,i):         #compare les solutions obtenues avec les 3 méthodes 
+def compare7(tf,n,i): #compare les solutions obtenues avec les 3 méthodes pour une CI donnée
     T,Y0,A0=recurrence(tf,n,i)
-    T1,Y1,A1=solscipy(tf,n,i)
     T2,Y2=solexacte(tf,n,i)
     R=[Rt for i in range(len(T))]
-    plt.plot(T,Y0,'r',label="V(0)=5491 m/s")
-    plt.plot(T1,Y1,'g',label="V(0)=5491 m/s")
-    plt.plot(T2,Y2,'b',label="V(0)=5491 m/s")
+    V0=str(V[i])
+    plt.plot(T,Y0,'r',label="Euler")
+    plt.plot(T2,Y2,'b',label="Solution exacte")
     plt.plot(T,R,'purple',label="Surface de la Terre")
     plt.xlabel("Temps(s)")
     plt.ylabel("Rayons(m)")
-    plt.show()
-    plt.plot(T,A0,'r',label="V(0)=5491 m/s")
-    plt.plot(T1,A1,'g',label="V(0)=5491 m/s")
-    plt.xlabel("Temps(s)")
-    plt.ylabel("Angle(°)")
+    plt.title("V(0)="+V0+"m/s")
+    plt.legend()
     plt.show()
     
-def compare5(i,n,tf):  #compare les différentes solutions en fonction de la vitesse initiale et du nombre de points d'acquisitions
-    T,Y,A=recurrence(tf,n,i)
-    ts=np.linspace(0.,tf,n)
-    Ys=[k[0] for k in spi.odeint(f,tf,ts)]
-    te=T
-    te.append()
-    Ye=solexacte(n,i)
-    print(Ye)
-    print(Ys)
-    plt.title("Rayons (Euler en rouge, Scipy en vert et Exacte en bleu) en fonction du temps")
-    plt.xlabel("Temps (s)")
-    plt.ylabel("Rayons (m)")
-    plt.plot(T,Y,'r',ts,Ys,'g',T,Ye,'b')
+def compare8(tf,n,i): #compare les solutions obtenues avec les 3 méthodes pour une CI donnée
+    T1,Y1,A1=solscipy(tf,n,i)
+    T2,Y2=solexacte(tf,n,i)
+    V0=str(V[i])
+    R=[Rt for i in range(len(T1))]
+    plt.plot(T1,Y1,'g',label="Odeint")
+    plt.plot(T2,Y2,'b',label="Solution exacte")
+    plt.plot(T1,R,'purple',label="Surface de la Terre")
+    plt.xlabel("Temps(s)")
+    plt.ylabel("Rayons(m)")
+    plt.title("V(0)="+V0+"m/s")
     plt.legend()
     plt.show()
