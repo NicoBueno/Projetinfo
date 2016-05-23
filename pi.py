@@ -1,4 +1,4 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 # Projet informatique 
 # GROUPE nÂ°8 : Mendez De Maria, Bernon, Bueno
 # Sujet : ETUDE DU MOUVEMENT D'UNE SONDE DANS UN CHAMP GRAVITATIONNEL
@@ -138,8 +138,8 @@ def traceexacte(tf,n,i):
     plt.savefig("GrapheExacte")
     plt.show()
     
-#-------- Fonctions pour comparer graphiquement l'évolution des rayon et ----------------------
-#------------- angle en fonction des diférentes CI avec une méthode------------------------- 
+#-------- Fonctions pour comparer graphiquement l'évolution des rayons et ----------------------
+#------------- angles en fonction des diférentes CI avec une méthode------------------------- 
     
 def compare1(tf,n):         #trace les rayons et angles obtenus avec Euler
     T,Y0,A0=recurrence(0,tf,n,0)
