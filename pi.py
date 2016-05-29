@@ -55,13 +55,12 @@ def trace1(L1,L2,L3,L4,L5,R,n):
         plt.plot(L2[0],L2[1],'g',label="V(0)="+str(V[L2[2]])+"m/s")
         plt.plot(L3[0],L3[1],'b',label="V(0)="+str(V[L3[2]])+"m/s")
         plt.plot(L4[0],L4[1],'y',label="V(0)="+str(V[L4[2]])+"m/s")
-        plt.plot(L5[0],L5[1],'black',label="V(0)="+str(V[L5[2]])+"m/s")
+        plt.plot(L5[0],L5[1],'black',label="V(0)="+str(round(V[L5[2]]))+"m/s")
     plt.plot(R[0],R[1],'purple',label="Surface de la Terre")
     plt.ylim(0.4*10**(7),1.2*10**(7))
     plt.xlabel("Temps(s)")
     plt.ylabel("Rayons(m)")
-    plt.legend(loc=2)
-    plt.show()
+    plt.legend(loc=2,prop={'size':10})
 
 #--------------------- Fonctions donnant les solutions ------------------------- 
    
@@ -124,7 +123,6 @@ def tracescipy(tf,n,i):
     plt.show()
     plt.title("Angle en fonction du temps")
     plt.plot(t,a,'b')
-    plt.savefig("GrapheOdeint")
     plt.show()
     
 def traceexacte(tf,n,i):
@@ -134,7 +132,6 @@ def traceexacte(tf,n,i):
     plt.show()
     plt.title("Angle en fonction du temps")
     plt.plot(t,'b')
-    plt.savefig("GrapheExacte")
     plt.show()
     
 #-------- Fonctions pour comparer graphiquement l'évolution des rayons et ----------------------
@@ -146,14 +143,18 @@ def compare1(tf,n):         #trace les rayons et angles obtenus avec Euler
     T,Y2,A2=recurrence(tf,n,2)
     T,Y3,A3=recurrence(tf,n,3)
     T,Y4,A4=recurrence(tf,n,4)
-    R=[Rt for i in range(len(T))]
-    plt.savefig("GrapheEuler.png")
+    R=[Rt for i in range(len(T))]    
+    plt.title("Rayon en fonction du temps")
     trace1([T,Y0,0],[T,Y1,1],[T,Y2,2],[T,Y3,3],[T,Y4,4],[T,R,0],n)
-    plt.plot(T,A0,'r')
-    plt.plot(T,A1,'g')
-    plt.plot(T,A2,'b')
-    plt.plot(T,A3,'y')
-    plt.plot(T,A4,'k')
+    plt.savefig("GrapheEuler.png")
+    plt.show()
+    plt.plot(T,A0,'r',label="V(0)="+str(V[0])+"m/s")
+    plt.plot(T,A1,'g',label="V(0)="+str(V[1])+"m/s")
+    plt.plot(T,A2,'b',label="V(0)="+str(V[2])+"m/s")
+    plt.plot(T,A3,'y',label="V(0)="+str(V[3])+"m/s")
+    plt.plot(T,A4,'k',label="V(0)="+str(V[4])+"m/s")
+    plt.legend(loc=2,prop={'size':10})
+    plt.savefig("GrapheEuler2.png")
     plt.show()
     
 def compare2(tf,n):         #trace les rayons et angles obtenus avec Odeint
@@ -164,11 +165,15 @@ def compare2(tf,n):         #trace les rayons et angles obtenus avec Odeint
     T,Y4,A4=solscipy(tf,n,4)
     R=[Rt for i in range(len(T))]
     trace1([T,Y0,0],[T,Y1,1],[T,Y2,2],[T,Y3,3],[T,Y4,4],[T,R,0],n)
-    plt.plot(T,A0,'r')
-    plt.plot(T,A1,'g')
-    plt.plot(T,A2,'b')
-    plt.plot(T,A3,'y')
-    plt.plot(T,A4,'k')
+    plt.savefig("GrapheOdeint.png")
+    plt.show()
+    plt.plot(T,A0,'r',label="V(0)="+str(V[0])+"m/s")
+    plt.plot(T,A1,'g',label="V(0)="+str(V[1])+"m/s")
+    plt.plot(T,A2,'b',label="V(0)="+str(V[2])+"m/s")
+    plt.plot(T,A3,'y',label="V(0)="+str(V[3])+"m/s")
+    plt.plot(T,A4,'k',label="V(0)="+str(V[4])+"m/s")
+    plt.legend(loc=2,prop={'size':10})
+    plt.savefig("GrapheOdeint2.png")
     plt.show()
     
 def compare3(tf,n):   #trace les rayons et angles obtenus avec la solution exacte
@@ -179,6 +184,8 @@ def compare3(tf,n):   #trace les rayons et angles obtenus avec la solution exact
     T,Y4,A5=solexacte(tf,n,4)
     R=[Rt]*(len(T))
     trace1([T,Y0,0],[T,Y1,1],[T,Y2,2],[T,Y3,3],[T,Y4,4],[T,R,0],n)
+    plt.savefig("GrapheExacte.png")
+    plt.show()
 
 #--------------- Fonctions pour comparer graphiquement l'évolution des rayon et ----------------------
 #---------- angle en fonction des différents pas d'intégration avec une même méthode ------------------------- 
