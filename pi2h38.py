@@ -343,3 +343,14 @@ def ecartsol(tf,n,fonction,i):    # tentative de reduction du temps de ecartsol3
     fenetre.mainloop()
     fenetre.destroy()
     
+#for j in range(4): 
+#      for k in Tref: 
+    #      for i in range LT[j]: 
+    #          if k-LT[j][i]=<epsilon:           # mettre epsilon en argulent de la fonction
+           #         Ycorrespondant=LY[j][LT[j].index(kcorrespondantimprecis)] # le y correspondant est donc celui de la liste LY[j] qui est à la même position que la valeur de k dans sa liste respective LT[j]
+                #    Acorrespondant=LA[j][LT[j].index(kcorrespondantimprecis)] # pareil pour A
+                 #   Yreference=Yref[Tref.index(k)]# le Y de reference correspondant est celui qui est à la même position dans sa liste Yref que le k dans sa liste Tref
+                  #  Areference=Aref[Tref.index(k)]# pareil pour A
+                   # ecartA=Areference-Acorrespondant# on voit quel est l'ecart
+                    #ecartY=Yreference-Ycorrespondant
+                    #Tableau.append([k,j,ecartA])

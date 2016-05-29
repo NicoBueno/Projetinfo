@@ -115,7 +115,6 @@ def traceeuler(tf,n,i):   #trace rayon et angle en fonction d'une CI donnée
     plt.show()
     plt.title("Angle en fonction du temps")
     plt.plot(t,a,'b')
-    plt.savefig("GrapheEuler.png")
     plt.show()
     
 def tracescipy(tf,n,i):
@@ -142,12 +141,13 @@ def traceexacte(tf,n,i):
 #------------- angles en fonction des diférentes CI avec une méthode------------------------- 
     
 def compare1(tf,n):         #trace les rayons et angles obtenus avec Euler
-    T,Y0,A0=recurrence(0,tf,n,0)
-    T,Y1,A1=recurrence(0,tf,n,1)
-    T,Y2,A2=recurrence(0,tf,n,2)
-    T,Y3,A3=recurrence(0,tf,n,3)
-    T,Y4,A4=recurrence(0,tf,n,4)
+    T,Y0,A0=recurrence(tf,n,0)
+    T,Y1,A1=recurrence(tf,n,1)
+    T,Y2,A2=recurrence(tf,n,2)
+    T,Y3,A3=recurrence(tf,n,3)
+    T,Y4,A4=recurrence(tf,n,4)
     R=[Rt for i in range(len(T))]
+    plt.savefig("GrapheEuler.png")
     trace1([T,Y0,0],[T,Y1,1],[T,Y2,2],[T,Y3,3],[T,Y4,4],[T,R,0],n)
     plt.plot(T,A0,'r')
     plt.plot(T,A1,'g')
@@ -249,20 +249,3 @@ def compare7(tf,n,i): #compare les solutions obtenues avec les 3 méthodes pour 
     plt.title("V(0)="+str(V[i])+"m/s")
     plt.legend()
     plt.show()
-    
-#-------- Fonction pour comparer graphiquement les solutions ------------------
-#------------- obtenues grâce aux différentes méthodes ------------------------- 
-    
-def ecart(intervalle,nombremesure,fonction):
-    
-    P=intervalle/nombremesure
-    T=0
-    Tableau=[]
-    i=0
-    while T<intervalle:
-        Tableau.append(T[i])
-        
-        while 
-            solscipy(tf,n,i)  #on trace la solution à l'equation differentielle grace a scipy
-            Tableau.append([])
-        i+=1
