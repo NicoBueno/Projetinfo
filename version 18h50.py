@@ -274,13 +274,13 @@ def ecartsol(tf,n,fonction,i):
     LA=[A1,A2,A3,A4]# liste de a
     LT=[T1,T2,T3,T4] # liste de temps 
     Tableau=[]# on initialise un tableau vide
-    imprecision=(Tref[1]-Tref[0])/8 # on a une liste de temps de reference Tref, et il va falloir trouver les mêmes valeurs de Tref dans les autres listes T1, T2, T3 et T4 sauf que dans ces listes y'aura pas EXACTEMENT les mêmes valeurs que pour Tref, donc on va considérer ces valeurs à un intervalle de tolérance près. ce pas, on le defini plus petit qu'un pas de temps de reference, sinon on pourrait avoir les mêmes valeurs pour deux Tref indentiques.plusieurs valeurs des listes T1,T2,T3,T4 seront dans cet intervalle, et on sélectionnera une seule  à la fin. 
-    # on sait que Tref contient peu de valeurs, de 0 à 1000 de 100 en 1000 donc au lieu de chercher tous les LT[j] on va chercher ceux dont la position est suseptible de s'apprecher des valeurs qu'on veut, c'est a dire de celles de Tref
+    imprecision=(Tref[1]-Tref[0])/8 # on a une liste de temps de reference Tref, et il va falloir trouver les mêmes valeurs de Tref dans les autres listes T1, T2, T3 et T4 sauf que dans ces listes il n'y aura pas EXACTEMENT les mêmes valeurs que pour Tref, donc on va considérer ces valeurs à un intervalle de tolérance près. ce pas, on le defini plus petit qu'un pas de temps de reference, sinon on pourrait avoir les mêmes valeurs pour deux Tref indentiques.plusieurs valeurs des listes T1,T2,T3,T4 seront dans cet intervalle, et on sélectionnera une seule  à la fin. 
+    # on sait que Tref contient peu de valeurs, de 0 à 1000 de 100 en 100 donc au lieu de chercher tous les LT[j] on va chercher ceux dont la position est suseptible de s'apprecher des valeurs qu'on veut, c'est a dire de celles de Tref
     for j in range(4): # car on teste pour 4 valeurs de pas, donc pour les listes T1,T2,T3,et T4 respectivement en positions de 0 à 3 dans la liste LT
         pas=(LT[j][1]-LT[j][0]) # on a le pas dont on cherche a quantifier l'impact sur limprecision
         for k in Tref: # pour chaque valeur de Treference
             positionsusceptible=k/pas # k, c'est la valeur de Tref qu'on veut retrouver dans les autres LT. il faut faire positionsusceptible fois le pas pour atteindre k. comme dans la liste on se deplace de pas en pas. on aura k pour une position dans la liste environ egale à positionsuseptible
-            if k!=Tref[0] and k!=Tref[-1]:           # si k n'est ni 0 ni 1000, on etend notre recherche aux positions de LT entre positionsusceptible-10 et position susceptible+10
+            if k!=Tref[0] and k!=Tref[-1]:# si k n'est ni 0 ni 1000, on etend notre recherche aux positions de LT entre positionsusceptible-10 et position susceptible+10
                 posdepart=positionsusceptible-1 # ainsi, dans la première for bouclera 20 fois au lieu des len(LT) fois. ce qui est un enorme gain de temps
                 posfin=positionsusceptible+1
             if k ==Tref[0] :           # si k =0, alors on va chercher la valeur k dans les valeurs de LT comprises aux positions allant de 0 à 10 environ
