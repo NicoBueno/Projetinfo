@@ -49,7 +49,7 @@ def trace1(L1,L2,L3,L4,L5,R,n): #cette fonction permet de ne pas réecrire 20 li
         plt.plot(L3[0],L3[1],'b',label="P="+str(n))
         plt.plot(L4[0],L4[1],'y',label="P="+str(10*n))
         plt.plot(L5[0],L5[1],'black',label="P="+str(100*n))
-        plt.title("Angle en fonction du temps (pour V(0)="+str(V[L1[2]])+"m/s)")
+        plt.title("Rayon en fonction du temps (pour V(0)="+str(V[L1[2]])+"m/s)")
     else:
         plt.plot(L1[0],L1[1],'r',label="V(0)="+str(V[L1[2]])+"m/s")
         plt.plot(L2[0],L2[1],'g',label="V(0)="+str(V[L2[2]])+"m/s")
@@ -246,7 +246,7 @@ def compare6(tf,n,i):   #trace les rayons et angles obtenus avec la solution exa
 def compare7(tf,n,i): #compare les solutions obtenues avec les 3 méthodes pour une CI donnée
     T,Y0,A0=recurrence(tf,n,i)
     T1,Y1,A1=solscipy(tf,n,i)
-    T2,Y2=solexacte(tf,n,i)
+    T2,Y2,A2=solexacte(tf,n,i)
     R=[Rt for i in range(len(T))]
     plt.plot(T,Y0,'r',label="Euler")
     plt.plot(T2,Y2,'b',label="Solution exacte")
@@ -259,7 +259,7 @@ def compare7(tf,n,i): #compare les solutions obtenues avec les 3 méthodes pour 
     plt.figure(2)
     plt.plot(T1,Y1,'g',label="Odeint")
     plt.plot(T2,Y2,'b',label="Solution exacte")
-    plt.plot(T1,R,'purple',label="Surface de la Terre")
+    plt.plot(T,R,'purple',label="Surface de la Terre")
     plt.xlabel("Temps(s)")
     plt.ylabel("Rayons(m)")
     plt.title("V(0)="+str(V[i])+"m/s")
