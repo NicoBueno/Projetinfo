@@ -271,86 +271,46 @@ def compare7(tf,n,i): #compare les solutions obtenues avec les 3 méthodes pour 
 # ------------entre les différentes courbes d'une même méthode pour --------
 # ----------------------- différents pas et une même CI -----------------------
 
-def ecartsol(tf,n,fonction,i):      
+def ecartsol(tf,n,fonction,i,j):      
     Tref,Yref,Aref=fonction(tf,P0*n,i) # ceci represente notre courbe de reference, avec un P0*n le plus petit
     T1,Y1,A1=fonction(tf,P1*n,i)
     T2,Y2,A2=fonction(tf,P2*n,i)
     T3,Y3,A3=fonction(tf,P3*n,i)
     T4,Y4,A4=fonction(tf,P4*n,i)
-    if fonction==solscipy:
-        Tiref,Yiref,Airef,Ti1,Yi1,Ai1,Ti2,Yi2,Ai2,Ti3,Yi3,Ai3,Ti4,Yi4,Ai4=[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]
-        J=[Tiref,Yiref,Airef,Ti1,Yi1,Ai1,Ti2,Yi2,Ai2,Ti3,Yi3,Ai3,Ti4,Yi4,Ai4]
-        H=[Tref,Yref,Aref,T1,Y1,A1,T2,Y2,A2,T3,Y3,A3,T4,Y4,A4]
-        for h in range(len(H)):
-            for g in range(len(H[h])):  
-                J[h].append(H[h].tolist()[g])
-        Tref,Yref,Aref,T1,Y1,A1,T2,Y2,A2,T3,Y3,A3,T4,Y4,A4=Tiref,Yiref,Airef,Ti1,Yi1,Ai1,Ti2,Yi2,Ai2,Ti3,Yi3,Ai3,Ti4,Yi4,Ai4
-    P=[P1,P2,P3,P4] # pour les pas
-    LY=[Y1,Y2,Y3,Y4] #liste de y
-    LA=[A1,A2,A3,A4]# liste de a
-    LT=[T1,T2,T3,T4] # liste de temps 
-    Tableau=[]# on initialise un tableau vide
-    imprecision=(Tref[1]-Tref[0])/8 # on a une liste de temps de reference Tref, et il va falloir trouver les mêmes valeurs de Tref dans les autres listes T1, T2, T3 et T4 sauf que dans ces listes il n'y aura pas EXACTEMENT les mêmes valeurs que pour Tref, donc on va considérer ces valeurs à un intervalle de tolérance près. ce pas, on le defini plus petit qu'un pas de temps de reference, sinon on pourrait avoir les mêmes valeurs pour deux Tref indentiques.plusieurs valeurs des listes T1,T2,T3,T4 seront dans cet intervalle, et on sélectionnera une seule  à la fin. 
-    # on sait que Tref contient peu de valeurs, de 0 à 1000 de 100 en 100 donc au lieu de chercher tous les LT[j] on va chercher ceux dont la position est suseptible de s'apprecher des valeurs qu'on veut, c'est a dire de celles de Tref
-    for j in range(4): # car on teste pour 4 valeurs de pas, donc pour les listes T1,T2,T3,et T4 respectivement en positions de 0 à 3 dans la liste LT
-        pas=(LT[j][1]-LT[j][0]) # on a le pas dont on cherche a quantifier l'impact sur limprecision
-        for k in Tref: # pour chaque valeur de Treference
-            positionsusceptible=k/pas # k, c'est la valeur de Tref qu'on veut retrouver dans les autres LT. il faut faire positionsusceptible fois le pas pour atteindre k. comme dans la liste on se deplace de pas en pas. on aura k pour une position dans la liste environ egale à positionsuseptible
-            if k!=Tref[0] and k!=Tref[-1]:# si k n'est ni 0 ni 1000, on etend notre recherche aux positions de LT entre positionsusceptible-10 et position susceptible+10
-                posdepart=positionsusceptible-1 # ainsi, dans la première for bouclera 20 fois au lieu des len(LT) fois. ce qui est un enorme gain de temps
-                posfin=positionsusceptible+1
-            if k ==Tref[0] :           # si k =0, alors on va chercher la valeur k dans les valeurs de LT comprises aux positions allant de 0 à 10 environ
-                posdepart=0
-                posfin=positionsusceptible+1
-            if k==Tref[-1]:           # si k=1000, on va chercher la valeur k dans les valeurs de LT comprises au positions allant de 990 à 1000 environ
-                posdepart=positionsusceptible-1
-                posfin=len(LT[j])
-            for l in range (int(posdepart),int(posfin)): #○ on va donc parcourir nos listes LT sur les positions où on pense trouver la bonne valeur de k
-                if  LT[j][l]-imprecision<=k< LT[j][l]+imprecision: # Sauf que, comme on a dit, on aura jamais exatement k, d'où l'interet de trouver une valeur à une imprecision près. on met le inferieur ou egal que dun cote pour pqs se retrouver avec deux if possibles
-                    kcorrespondantimprecis=LT[j][l] # on a donc trouvé un k dans la LT qui est "egal" au k de Tref (de façon imprecise)
-                    Ycorrespondant=LY[j][LT[j].index(kcorrespondantimprecis)] # le y correspondant est donc celui de la liste LY[j] qui est à la même position que la valeur de k dans sa liste respective LT[j]
-                    Acorrespondant=LA[j][LT[j].index(kcorrespondantimprecis)] # pareil pour A
-                    Yreference=Yref[Tref.index(k)]# le Y de reference correspondant est celui qui est à la même position dans sa liste Yref que le k dans sa liste Tref
-                    Areference=Aref[Tref.index(k)]# pareil pour A
-                    ecartA=Areference-Acorrespondant# on voit quel est l'ecart
-                    ecartY=Yreference-Ycorrespondant
-                    Tableau.append([k,j,ecartA]) # k, c'est la valeur de Tref à laquelle on a mesuré l'ecart, j ça nous dit si on a pris la liste de temps T1(j=0), T2(j=1) T3 ou T4, on peut donc en deduire le pas, et ecart A, c'est les ecart. je sait pas si c'est les ecartsY ou les ecartsA qu'il faut faire. pour les ecarts Y je trouve des valeurs d'ecarts qui valent environ -20000. ça parait un peu lourd. en tout cas la def arrive à se finir en une minute ou deux donc c'est bien
-    vraiTableau=[Tableau[1]] # cette partie de code sert à recuperer une seule liste par valeur de Tref. parce qu'avec l'histoire de l'imprecision, plusieurs trucs ont etes calculées pour la même valeur de Tref. donc on s'epargne les doublons en ne recuperant qu'une seule fois chaque valeur de Tempsref
-    for i in Tableau:
-        if i[0]!=vraiTableau[-1][0]:
-            vraiTableau.append(i)# ce tableau renvoie, pour chaque valeur de Tref, et pour chaque  j (qu'on relie au pas) , la valeur de l'imprecision (pour les Angles)
-    # pour les angles j'ai l'impression que ça marche bien, pour les Y les ecartes me paraissent grand
+    LY=[]
+    LA=[]
+    y1,y2,y3,y4=0,0,0,0
+    a1,a2,a3,a4=0,0,0,0
+    #print((Tref),(T1),len(T2),len(T3),len(T4))
+    for i in range(len(Tref)-1):
+        y1,y2,y3,y4=abs(Yref[i]-Y1[i*100-1]),abs(Yref[i]-Y2[i*1000]),abs(Yref[i]-Y3[i*10000]),abs(Yref[i]-Y4[i*1000000])
+        a1,a2,a3,a4=Aref[i]-A1[i*100],Aref[i]-A2[i*1000],Aref[i]-A3[i*10000],Aref[i]-A4[i*1000000]
+        LY.append([Tref[i],1,y1])
+        LY.append([Tref[i],2,y2])
+        LY.append([Tref[i],3,y3])
+        LY.append([Tref[i],4,y4])
+        LA.append([Tref[i],1,a1])
+        LA.append([Tref[i],2,a2])
+        LA.append([Tref[i],3,a3])
+        LA.append([Tref[i],4,a4])
+    Liste1=[LY,LA]       
+    Liste=Liste1[j]
     
-    fenetre=Tk()    # TEST AFFICHAGE GRAPHIQUE AVEC tKINTER
+    fenetre=Tk()   
     fenetre.geometry("1400x200")
     c=Canvas(fenetre,width=900,height=900)
-    LT2=[]
     Lposcol=[]
-    compteur=1
-    for a in Tref:
-        if a in LT2: 
-            pos=LT2.index(a)+1
-        else:
-            pos=compteur
-            compteur+=1
-        LT2.append(a)
-        Temps=Label(c,text=a)
-        Temps.grid(row=0,column=pos)
-        Lposcol.append([a,pos])
-    Lj2=[]
     Lposrow=[]
-    compteur=1
-    for a in range(4):
-        if a in Lj2: 
-            pos=Lj2.index(a)+1
-        else:
-            pos=compteur
-            compteur+=1
-        Lj2.append(a)
+    for a in range(len(Tref)):
+        Temps=Label(c,text=Tref[a])
+        Temps.grid(row=0,column=a+1)
+        Lposcol.append([Tref[a],a+1])
+    for a in range(1,5):
         Pas=Label(c,text=a)
-        Pas.grid(row=pos,column=0)
-        Lposrow.append([a,pos])
-    for a in vraiTableau:
+        Pas.grid(row=a,column=0)
+        Lposrow.append([a,a])
+        
+    for a in Liste:
         posrow=0
         poscol=0
         for d in Lposcol:
@@ -364,3 +324,4 @@ def ecartsol(tf,n,fonction,i):
     c.pack()
     fenetre.mainloop()
     fenetre.destroy()
+    
