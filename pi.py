@@ -41,7 +41,7 @@ def f(var,t):
     return sol
     
 #-------------------- Fonctions qui tracent sur un même graphique --------------------
-#------------------les différentes listes qu'elle prend en argument ------------------------- 
+#------------------les différentes listes qu'elle prennent en argument ------------------------- 
     
 def trace1(L1,L2,L3,L4,L5,R,n): #cette fonction permet de ne pas réecrire 10 lignes pour chaque tracé de courbes
     if L1[2]==L2[2]:            #on teste si c'est le pas ou les CI qui changent
@@ -65,7 +65,7 @@ def trace1(L1,L2,L3,L4,L5,R,n): #cette fonction permet de ne pas réecrire 10 li
     plt.legend(loc=2,prop={'size':10})
     
 def trace2(L1,L2,L3,L4,L5,n):
-    if L1[2]==L2[2]:            #on teste si c'est le pas ou les CI qui changent
+    if L1[2]==L2[2]:
         plt.plot(L1[0],L1[1],'r',label="P="+str(0.01*n))
         plt.plot(L2[0],L2[1],'g',label="P="+str(0.1*n))
         plt.plot(L3[0],L3[1],'b',label="P="+str(n))
@@ -85,7 +85,7 @@ def trace2(L1,L2,L3,L4,L5,n):
 
 #-------- Fonctions donnant les solutions avec différentes méthodes ------------------------- 
    
-def euler(tf,n,i):    # ti et tf correspondent respectivement aux temps initial et final, ils sont exprimés en secondes
+def euler(tf,n,i):    #l'argument i permet de choisir la vitesse initiale
     z0=0
     a0=0
     b0=V[i]/y0
@@ -112,7 +112,7 @@ def solscipy(tf,n,i):  #on trace la solution à l'equation differentielle grace 
     return ts,Y,A   
 
 
-def solexacte(tf,n,i):  #l'argument permet de choisir la vitesse initiale
+def solexacte(tf,n,i):  #cette fonction donne la solution excacte connue
     Ye=[y0]
     b0=V[i]/y0
     C=((y0**2)*b0)
@@ -271,7 +271,7 @@ def compare7(tf,n,i): #compare les solutions obtenues avec les 3 méthodes pour 
 # ------------entre les différentes courbes d'une même méthode pour --------
 # ----------------------- différents pas et une même CI -----------------------
 
-def ecartsol(tf,n,fonction,i,j):      
+def ecartsol(tf,n,fonction,i,j): #j ne prend que la veleur 0 ou 1 (selon si on veut comparer les angles ou les rayons)
     Tref,Yref,Aref=fonction(tf,P0*n,i) # ceci represente notre courbe de reference, avec un P0*n le plus petit
     T1,Y1,A1=fonction(tf,P1*n,i)
     T2,Y2,A2=fonction(tf,P2*n,i)
@@ -281,10 +281,10 @@ def ecartsol(tf,n,fonction,i,j):
     LA=[]
     y1,y2,y3,y4=0,0,0,0
     a1,a2,a3,a4=0,0,0,0
-    #print((Tref),(T1),len(T2),len(T3),len(T4))
-    for i in range(len(Tref)-1):
+    for i in range(1,len(Tref)):
         y1,y2,y3,y4=abs(Yref[i]-Y1[i*100-1]),abs(Yref[i]-Y2[i*1000]),abs(Yref[i]-Y3[i*10000]),abs(Yref[i]-Y4[i*1000000])
         a1,a2,a3,a4=Aref[i]-A1[i*100],Aref[i]-A2[i*1000],Aref[i]-A3[i*10000],Aref[i]-A4[i*1000000]
+        #il y a un facteur Pi entre le nombre de point par liste
         LY.append([Tref[i],1,y1])
         LY.append([Tref[i],2,y2])
         LY.append([Tref[i],3,y3])
@@ -293,10 +293,13 @@ def ecartsol(tf,n,fonction,i,j):
         LA.append([Tref[i],2,a2])
         LA.append([Tref[i],3,a3])
         LA.append([Tref[i],4,a4])
-    Liste1=[LY,LA]       
+    Liste1=[LY,LA]    #on renvoie une liste du type [Temps,n°courbe,ecart] pour le tableau
     Liste=Liste1[j]
-    
-    fenetre=Tk()   
+    fenetre=Tk()
+    if j==0:
+        fenetre.title("Ecarts des rayons selon le pas")
+    else:
+        fenetre.title("Ecarts des angles selon le pas")
     fenetre.geometry("1400x200")
     c=Canvas(fenetre,width=900,height=900)
     Lposcol=[]
@@ -324,4 +327,3 @@ def ecartsol(tf,n,fonction,i,j):
     c.pack()
     fenetre.mainloop()
     fenetre.destroy()
-    
